@@ -20,6 +20,7 @@ The **conduIT Edge Node** is an enterprise-grade Android application designed fo
 The following diagram illustrates the secure, multi-stage flow of a message through the Conduit ecosystem.
 
 ```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': { 'primaryColor': '#007bff', 'edgeLabelBackground':'transparent' }}}%%
 graph TD
     subgraph ST1 ["🛰️ Stage 1: Ingress"]
         REQ["☁️ Conduit Cloud API"] -- "HMAC Signing" --> FCM["📡 Google FCM"]
@@ -39,12 +40,12 @@ graph TD
         SYNC -. "Finalize Status" .-> REQ
     end
 
-    %% Node Interactions
-    style ST1 fill:#f8f9fa,stroke:#dee2e6,stroke-width:2px
-    style ST2 fill:#e9ecef,stroke:#adb5bd,stroke-width:2px
-    style ST3 fill:#f8f9fa,stroke:#dee2e6,stroke-width:2px
+    %% Professional Styling
+    style ST1 fill:none,stroke:#007bff,stroke-width:2px,stroke-dasharray: 5 5
+    style ST2 fill:none,stroke:#6c757d,stroke-width:2px,stroke-dasharray: 5 5
+    style ST3 fill:none,stroke:#28a745,stroke-width:2px,stroke-dasharray: 5 5
 
-    classDef active fill:#007bff,color:#fff,stroke:#0056b3
+    classDef active fill:#007bff,color:#fff,stroke:#0056b3,stroke-width:1px
     class REQ,FCM,APP,SEC,DB,RNG,LIM,RAD,SYNC active
 
     %% Clickable References
