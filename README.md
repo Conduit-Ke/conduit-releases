@@ -20,37 +20,12 @@ The **conduIT Edge Node** is an enterprise-grade Android application designed fo
 The following diagram illustrates the secure, multi-stage flow of a message through the Conduit ecosystem.
 
 ```mermaid
-%%{init: {'theme': 'neutral', 'themeVariables': { 'primaryColor': '#007bff', 'edgeLabelBackground':'transparent' }}}%%
 graph TD
-    subgraph ST1 ["🛰️ Stage 1: Ingress"]
-        REQ["☁️ Conduit Cloud API"] -- "HMAC Signing" --> FCM["📡 Google FCM"]
-        FCM -- "Encrypted Push" --> APP["📱 conduIT Node"]
-    end
-
-    subgraph ST2 ["⚙️ Stage 2: Processing"]
-        APP -- "AES-GCM Decrypt" --> SEC["🛡️ Security Layer"]
-        SEC -- "Durable Lock" --> DB["🗄️ Local SQLCipher"]
-        DB -- "Lease Start" --> RNG["🚀 Routing Engine"]
-    end
-
-    subgraph ST3 ["📶 Stage 3: Handoff"]
-        RNG -- "TPS Enforcer" --> LIM["⛓️ Rate Limiter"]
-        LIM -- "SIM Health Check" --> RAD["📶 Radio (Hardware)"]
-        RAD -- "DLR Confirmation" --> SYNC["✅ Cloud Sync"]
-        SYNC -. "Finalize Status" .-> REQ
-    end
-
-    %% Professional Styling
-    style ST1 fill:none,stroke:#007bff,stroke-width:2px,stroke-dasharray: 5 5
-    style ST2 fill:none,stroke:#6c757d,stroke-width:2px,stroke-dasharray: 5 5
-    style ST3 fill:none,stroke:#28a745,stroke-width:2px,stroke-dasharray: 5 5
-
-    classDef active fill:#007bff,color:#fff,stroke:#0056b3,stroke-width:1px
-    class REQ,FCM,APP,SEC,DB,RNG,LIM,RAD,SYNC active
-
-    %% Clickable References
-    click REQ "https://github.com/Conduit-Ke/conduit" "Technical Documentation"
-    click APP "https://github.com/Conduit-Ke/conduit-releases" "Release Artifacts"
+    API["☁️ Conduit Cloud API"] -- "Secure Push" --> FCM["📡 Google FCM"]
+    FCM -- "Task Delivery" --> APP["📱 conduIT App"]
+    APP -- "Durable Storage" --> DB[("🗄️ Local Database")]
+    APP -- "Rate Limited" --> RAD["📶 Device Radio"]
+    RAD -- "Status Update" --> API
 ```
 
 ---
