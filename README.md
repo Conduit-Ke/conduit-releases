@@ -21,17 +21,19 @@ The following diagram illustrates the secure, multi-stage flow of a message thro
 
 ```mermaid
 graph TD
-    API["☁️ Conduit Cloud API"]
-    APP["📱 conduIT Edge Node"]
+    API["☁️ Conduit Cloud Control"]
+    NODE["📱 conduIT Edge Node"]
     NET["📶 Mobile Network"]
 
-    %% Egress (Sending)
-    API -- "1. Task Delegation (Egress)" --> APP
-    APP -- "2. Radio Handoff" --> NET
+    %% Egress Pathway (Cloud to Device)
+    API -- "1. Encrypted Tasking" --> NODE
+    NODE -- "2. Policy Enforcement" --> NODE
+    NODE -- "3. Radio Transmission" --> NET
 
-    %% Ingress (Receiving)
-    NET -- "3. Message Ingress" --> APP
-    APP -- "4. Cloud Sync (Ingress)" --> API
+    %% Ingress Pathway (Device to Cloud)
+    NET -- "4. Signal Ingress" --> NODE
+    NODE -- "5. Security Validation" --> NODE
+    NODE -- "6. State Synchronization" --> API
 ```
 
 ---
