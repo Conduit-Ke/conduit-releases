@@ -21,11 +21,17 @@ The following diagram illustrates the secure, multi-stage flow of a message thro
 
 ```mermaid
 graph TD
-    API["☁️ Conduit Cloud API"] -- "Secure Push" --> FCM["📡 Google FCM"]
-    FCM -- "Task Delivery" --> APP["📱 conduIT App"]
-    APP -- "Durable Storage" --> DB[("🗄️ Local Database")]
-    APP -- "Rate Limited" --> RAD["📶 Device Radio"]
-    RAD -- "Status Update" --> API
+    API["☁️ Conduit Cloud API"]
+    APP["📱 conduIT Edge Node"]
+    NET["📶 Mobile Network"]
+
+    %% Egress (Sending)
+    API -- "1. Task Delegation (Egress)" --> APP
+    APP -- "2. Radio Handoff" --> NET
+
+    %% Ingress (Receiving)
+    NET -- "3. Message Ingress" --> APP
+    APP -- "4. Cloud Sync (Ingress)" --> API
 ```
 
 ---
