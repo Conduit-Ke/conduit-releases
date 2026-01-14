@@ -15,7 +15,46 @@ The **conduIT Edge Node** is an enterprise-grade Android application designed fo
 
 ---
 
-## 📦 Installation
+## � Message Life Cycle
+
+The following diagram illustrates the secure, multi-stage flow of a message through the Conduit ecosystem.
+
+```mermaid
+graph TD
+    subgraph ST1 ["🛰️ Stage 1: Ingress"]
+        REQ["☁️ Conduit Cloud API"] -- "HMAC Signing" --> FCM["📡 Google FCM"]
+        FCM -- "Encrypted Push" --> APP["📱 conduIT Node"]
+    end
+
+    subgraph ST2 ["⚙️ Stage 2: Processing"]
+        APP -- "AES-GCM Decrypt" --> SEC["🛡️ Security Layer"]
+        SEC -- "Durable Lock" --> DB["🗄️ Local SQLCipher"]
+        DB -- "Lease Start" --> RNG["🚀 Routing Engine"]
+    end
+
+    subgraph ST3 ["📶 Stage 3: Handoff"]
+        RNG -- "TPS Enforcer" --> LIM["⛓️ Rate Limiter"]
+        LIM -- "SIM Health Check" --> RAD["📶 Radio (Hardware)"]
+        RAD -- "DLR Confirmation" --> SYNC["✅ Cloud Sync"]
+        SYNC -. "Finalize Status" .-> REQ
+    end
+
+    %% Node Interactions
+    style ST1 fill:#f8f9fa,stroke:#dee2e6,stroke-width:2px
+    style ST2 fill:#e9ecef,stroke:#adb5bd,stroke-width:2px
+    style ST3 fill:#f8f9fa,stroke:#dee2e6,stroke-width:2px
+
+    classDef active fill:#007bff,color:#fff,stroke:#0056b3
+    class REQ,FCM,APP,SEC,DB,RNG,LIM,RAD,SYNC active
+
+    %% Clickable References
+    click REQ "https://github.com/Conduit-Ke/conduit" "Technical Documentation"
+    click APP "https://github.com/Conduit-Ke/conduit-releases" "Release Artifacts"
+```
+
+---
+
+## �📦 Installation
 
 To deploy a new node, follow these steps:
 
